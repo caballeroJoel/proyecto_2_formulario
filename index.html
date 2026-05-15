@@ -6,6 +6,7 @@
     <title>Encuesta Inteligente de Aula</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="supabase.js"></script>
 </head>
 <body>
     <div class="container">
@@ -70,7 +71,13 @@
         <!-- SECCIÓN PANEL DE ANALÍTICA -->
         <section class="panel-seccion">
             <div class="panel-header">
-                <h2>Panel de Analítica</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2>Panel de Analítica</h2>
+                    <div id="estado-guardado" class="badge-estado">
+                        <span class="badge-dot"></span>
+                        <span id="estado-texto">Conectando...</span>
+                    </div>
+                </div>
                 
                 <!-- Filtro por Grupo -->
                 <div class="filtro-grupo">

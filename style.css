@@ -268,8 +268,56 @@ input[type="radio"]#rating-5:checked + .rating-label {
 }
 
 .panel-header h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     color: var(--color-secondary);
+}
+
+/* Badge de estado de guardado */
+.badge-estado {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.badge-estado.supabase {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #2980b9;
+}
+
+.badge-estado.supabase .badge-dot {
+    background-color: #2980b9;
+}
+
+.badge-estado.local {
+    background-color: rgba(241, 196, 15, 0.1);
+    color: #d68910;
+}
+
+.badge-estado.local .badge-dot {
+    background-color: #f39c12;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }
 
 .filtro-grupo {
