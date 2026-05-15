@@ -17,13 +17,16 @@ const kpiPositivas = document.getElementById('kpi-positivas');
 const listadoRespuestas = document.getElementById('listado-respuestas');
 const graficaDistribucion = document.getElementById('grafica-distribucion');
 const canvasComparativa = document.getElementById('grafica-comparativa');
+const estadoGuardado = document.getElementById('estado-guardado');
+const estadoTexto = document.getElementById('estado-texto');
 
 // ========== EVENTOS ==========
 formularioEncuesta.addEventListener('submit', enviarEncuesta);
 filtroGrupo.addEventListener('change', actualizarPanel);
+window.addEventListener('load', iniciarApp);
 
 // ========== US-01 + US-02 + US-03: ENVIAR ENCUESTA ==========
-function enviarEncuesta(e) {
+async function enviarEncuesta(e) {
     e.preventDefault();
 
     // Validación
@@ -50,9 +53,15 @@ function enviarEncuesta(e) {
         fecha: new Date().toLocaleString('es-ES')
     };
 
-    // Guardar en array
-    respuestas.push(nuevaRespuesta);
-    console.log('Respuesta guardada:', nuevaRespuesta);
+    // Guardar en Supabase si está configurado, o localmente
+    const guardado = await guardarRespuesta(nuevaRespuesta);
+    if (guardado) {
+        respuestas.push(guardado);
+    } else {
+        respuestas.push(nuevaRespuesta);
+    }
+
+    console.log('Respuesta guardada:', guardado || nuevaRespuesta);
     console.log('Total de respuestas:', respuestas);
 
     // Limpiar formulario
@@ -63,6 +72,50 @@ function enviarEncuesta(e) {
 
     // Actualizar panel
     actualizarPanel();
+}
+
+async function guardarRespuesta(respuesta) {
+    if (typeof guardarRespuestaSupabase === 'function') {
+        try {
+            const resultado = await guardarRespuestaSupabase(respuesta);
+            if (resultado) {
+                console.log('Respuesta guardada exitosamente');
+                return resultado;
+            } else {
+                console.warn('Guardado en Supabase falló, usando array local');
+                return respuesta;
+            }
+        } catch (error) {
+            console.warn('Error al guardar en Supabase:', error.message);
+            return respuesta;
+        }
+    }
+    return respuesta;
+}
+
+async function iniciarApp() {
+    if (typeof inicializarSupabase === 'function') {
+        respuestas = await inicializarSupabase();
+    }
+    actualizarEstadoGuardado();
+    actualizarPanel();
+}
+
+// ========== ACTUALIZAR ESTADO DE GUARDADO ==========
+function actualizarEstadoGuardado() {
+    if (typeof supabaseConectado === 'undefined') {
+        estadoTexto.textContent = 'Modo local';
+        estadoGuardado.classList.remove('supabase');
+        estadoGuardado.classList.add('local');
+    } else if (supabaseConectado) {
+        estadoTexto.textContent = 'Guardando en Supabase';
+        estadoGuardado.classList.remove('local');
+        estadoGuardado.classList.add('supabase');
+    } else {
+        estadoTexto.textContent = 'Modo local';
+        estadoGuardado.classList.remove('supabase');
+        estadoGuardado.classList.add('local');
+    }
 }
 
 // ========== CONFIRMACIÓN VISUAL ==========
