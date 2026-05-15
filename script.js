@@ -1,5 +1,6 @@
 // ========== DATOS GLOBALES ==========
 let respuestas = []; // Array que almacena todas las respuestas
+let chartDistribucion = null; // Referencia al gráfico de distribución
 let chartComparativa = null; // Referencia al gráfico de Chart.js
 
 // ========== ELEMENTOS DEL DOM ==========
@@ -125,26 +126,55 @@ function actualizarGraficas(respuestasFiltradas) {
 
 // Gráfica de Distribución de Puntuaciones
 function actualizarGraficaDistribucion(respuestasFiltradas) {
-    // Contar cuántas respuestas hay para cada puntuación
-    const conteo = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    const labels = ['1', '2', '3', '4', '5'];
+    const conteo = [0, 0, 0, 0, 0];
 
     respuestasFiltradas.forEach(r => {
-        conteo[r.puntuacion]++;
+        conteo[r.puntuacion - 1]++;
     });
 
-    // Encontrar el máximo para escalar las barras
-    const maximo = Math.max(1, ...Object.values(conteo));
+    // Si el gráfico ya existe, destruirlo
+    if (chartDistribucion) {
+        chartDistribucion.destroy();
+    }
 
-    // Actualizar cada barra
-    const barras = graficaDistribucion.querySelectorAll('.barra-grupo');
-    barras.forEach((grupo, index) => {
-        const puntuacion = index + 1;
-        const cantidad = conteo[puntuacion];
-        const porcentaje = (cantidad / maximo) * 100;
-
-        const barra = grupo.querySelector('.barra');
-        barra.style.width = porcentaje + '%';
-        barra.textContent = cantidad;
+    const ctx = graficaDistribucion.getContext('2d');
+    chartDistribucion = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Respuestas',
+                data: conteo,
+                backgroundColor: ['#e74c3c', '#e67e22', '#f39c12', '#2ecc71', '#27ae60'],
+                borderColor: ['#c0392b', '#d35400', '#d68910', '#27ae60', '#229954'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y;
+                        }
+                    }
+                }
+            }
+        }
     });
 }
 

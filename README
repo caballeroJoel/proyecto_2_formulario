@@ -1,0 +1,77 @@
+Prompt 1:
+Projecte 2 - Enquesta intel·ligent d'aula
+Enunciat complet del Projecte 2
+Repte: desenvolupar una aplicació web d’enquesta d’aula amb panell d’analítica, seguint una metodologia incremental amb Scrum (històries d’usuari i sprints).
+
+Context i visió de producte
+Producte: eina senzilla per recollir satisfacció d’alumnat i interpretar resultats.
+Usuari principal: professorat i alumnat del grup.
+Valor aportat: convertir respostes en informació accionable per millorar la sessió.
+Estat actual (v0 local de referència)
+Demo funcional en fitxer únic:
+/media/daw1/m1665/demos/m1665-p2-enquesta-local.html
+Captura del resultat:
+Resultat actual del Projecte 2
+Objectiu final del projecte
+L’objectiu final és implementar i lliurar la web v0 de referència (la mateixa idea funcional que la demo actual), de manera que l’alumnat tingui clar on ha d’arribar.
+
+Formulari d’enquesta (grup, puntuació 1-5, comentari opcional).
+Dades en arrays (simulació de BD).
+Panell amb filtre per grup.
+KPIs, gràfiques de barres, gràfiques de quesito i comparativa per grup.
+Llistat complet de respostes filtrades i targetes acolorides segons puntuació.
+Històries d’usuari (Scrum)
+ID Història d’usuari Criteris d’acceptació
+US-01 Com a alumne, vull enviar una valoració de 1 a 5 perquè el docent conegui la meva satisfacció. Formulari amb validació, enviament i confirmació visual.
+US-02 Com a alumne, vull afegir un comentari opcional per aportar context a la puntuació. El comentari es desa i es mostra al llistat de respostes.
+US-03 Com a docent, vull seleccionar grup (DAW1A/DAW1B/ASIX1) per segmentar les dades. La resposta queda associada al grup escollit.
+US-04 Com a docent, vull veure KPIs (respostes, mitjana, % positives) per interpretar ràpid l’estat del grup. KPIs calculats en temps real segons filtre actiu.
+US-05 Com a docent, vull veure distribució de puntuacions en gràfiques per identificar tendències. Barres i gràfics de quesito correctes per al conjunt filtrat.
+US-06 Com a docent, vull comparar mitjanes entre grups per prendre decisions. Gràfica comparativa disponible i actualitzada.
+US-07 Com a docent, vull revisar totes les respostes d’un grup concret. Filtre del panell amb opció “Tots” i grups individuals.
+US-08 Com a equip, vull mantenir codi clar i versionat per facilitar manteniment. Repositori amb commits descriptius i estructura coherent.
+US-09 Com a equip, vull desplegar al núvol per compartir la solució. Desplegament funcional i verificable a Vercel.
+US-10 Com a equip, vull passar d’array local a persistència real per conservar dades. Integració de Supabase sense trencar funcionalitats clau.
+Entregables obligatoris del projecte
+Codi font del projecte.
+Enllaç de la versió desplegada (quan es treballi IA3).
+Evidències de proves manuals i captures de funcionalitats.
+Breu document de decisions tècniques i millores pendents.
+Relació amb instruments (IA)
+Instrument Rol dins del projecte
+IA3 Tutorial de producte per portar la solució a cloud i IC/DC (repositori, branques, PR i desplegament).
+IA4 Tutorial de desenvolupament assistit amb IA sobre històries del backlog.
+IA5 Tutorial de migració a Supabase i analítica digital sobre dades persistides, amb conclusions finals.
+Planificació per sprints
+Sprint 1: US-01, US-02, US-03.
+Sprint 2: US-04, US-05, US-06, US-07.
+Sprint 3: US-08, US-09, US-10.
+Nota didàctica
+Aquest document és l’enunciat únic i complet del Projecte 2.
+Els documents IA3, IA4 i IA5 es treballen com a tutorials per sprint per arribar a la web v0 i, després, evolucionar-la.
+
+Nota de coordinació: dins del Sprint 3, IA3 se centra en US-08 i US-09; IA5 desenvolupa US-10 i valida de nou US-04..US-07 sobre dades de Supabase.
+
+necesito hacer el sprint 1 pero poco a poco por historias
+
+la plantilla.jpg es la parte de la imagen
+
+quiero hacer primero una v0 que sea crear el html y css, osea el principio esta bien no?
+
+
+
+
+Prompt 2:
+la plantilla es la imagen, haz el html y css de primeras
+
+
+
+
+Promt 3:
+perfecto, ahora necesito la fase 2 que viene a ser el sprint 1
+
+
+
+
+Promt 4:
+podrias la el partado de media de grupo ponerlo en grafico de quesito con chart en vez de los lineales
