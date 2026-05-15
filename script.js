@@ -1,5 +1,6 @@
 // ========== DATOS GLOBALES ==========
 let respuestas = []; // Array que almacena todas las respuestas
+let chartComparativa = null; // Referencia al gráfico de Chart.js
 
 // ========== ELEMENTOS DEL DOM ==========
 const formularioEncuesta = document.getElementById('formulario-encuesta');
@@ -14,7 +15,7 @@ const kpiPositivas = document.getElementById('kpi-positivas');
 
 const listadoRespuestas = document.getElementById('listado-respuestas');
 const graficaDistribucion = document.getElementById('grafica-distribucion');
-const graficaComparativa = document.getElementById('grafica-comparativa');
+const canvasComparativa = document.getElementById('grafica-comparativa');
 
 // ========== EVENTOS ==========
 formularioEncuesta.addEventListener('submit', enviarEncuesta);
@@ -147,35 +148,63 @@ function actualizarGraficaDistribucion(respuestasFiltradas) {
     });
 }
 
-// Gráfica Comparativa por Grupo
+// Gráfica Comparativa por Grupo (QUESITO CON CHART.JS)
 function actualizarGraficaComparativa() {
     const grupos = ['DAW1A', 'DAW1B', 'ASIX1'];
-    const promedios = {};
+    const promedios = [];
 
     // Calcular promedio por grupo
     grupos.forEach(grupo => {
         const respuestasGrupo = respuestas.filter(r => r.grupo === grupo);
         if (respuestasGrupo.length > 0) {
             const suma = respuestasGrupo.reduce((acc, r) => acc + r.puntuacion, 0);
-            promedios[grupo] = suma / respuestasGrupo.length;
+            promedios.push(suma / respuestasGrupo.length);
         } else {
-            promedios[grupo] = 0;
+            promedios.push(0);
         }
     });
 
-    // Encontrar el máximo para escalar las barras (máximo posible es 5)
-    const maximo = 5;
+    const colores = ['#3498db', '#9b59b6', '#e74c3c'];
 
-    // Actualizar cada barra
-    const barras = graficaComparativa.querySelectorAll('.barra-grupo');
-    barras.forEach((grupo, index) => {
-        const nombreGrupo = grupos[index];
-        const promedio = promedios[nombreGrupo];
-        const porcentaje = (promedio / maximo) * 100;
+    // Si el gráfico ya existe, destruirlo
+    if (chartComparativa) {
+        chartComparativa.destroy();
+    }
 
-        const barra = grupo.querySelector('.barra');
-        barra.style.width = porcentaje + '%';
-        barra.textContent = promedio.toFixed(1);
+    // Crear nuevo gráfico de quesito (doughnut)
+    const ctx = canvasComparativa.getContext('2d');
+    chartComparativa = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: grupos,
+            datasets: [{
+                data: promedios,
+                backgroundColor: colores,
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 12 },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed.toFixed(1) + '/5';
+                        }
+                    }
+                }
+            }
+        }
     });
 }
 
