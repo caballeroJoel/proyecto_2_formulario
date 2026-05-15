@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuesta Inteligente de Aula</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
@@ -128,22 +129,11 @@
                     </div>
                 </div>
 
-                <!-- Gráfica Comparativa por Grupo -->
+                <!-- Gráfica Comparativa por Grupo (Quesito) -->
                 <div class="grafica-card">
                     <h3>Puntuación Media por Grupo</h3>
-                    <div class="grafica-barras" id="grafica-comparativa">
-                        <div class="barra-grupo">
-                            <span class="barra-label">DAW1A</span>
-                            <div class="barra" style="width: 0%; background-color: #3498db;">0</div>
-                        </div>
-                        <div class="barra-grupo">
-                            <span class="barra-label">DAW1B</span>
-                            <div class="barra" style="width: 0%; background-color: #9b59b6;">0</div>
-                        </div>
-                        <div class="barra-grupo">
-                            <span class="barra-label">ASIX1</span>
-                            <div class="barra" style="width: 0%; background-color: #e74c3c;">0</div>
-                        </div>
+                    <div style="display: flex; justify-content: center; align-items: center; height: 300px;">
+                        <canvas id="grafica-comparativa"></canvas>
                     </div>
                 </div>
             </div>
